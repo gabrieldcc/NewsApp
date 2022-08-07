@@ -7,9 +7,9 @@
 
 import Foundation
 
-class Service {
+final class Service {
     
-    func makeRequest(completion: @escaping (Welcome) -> ()) {
+    func makeRequest(completion: @escaping (News) -> ()) {
         guard let url = URL(string: "https://v1.nocodeapi.com/gabrieldcc/xml_to_json/LLCYxlGwDUKvWjjH?url=https://g1.globo.com/rss/g1/carros/") else { return }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
@@ -18,7 +18,7 @@ class Service {
             guard let responseData = data else { return }
             DispatchQueue.main.async {
                 do {
-                    let data = try JSONDecoder().decode(Welcome.self, from: responseData)
+                    let data = try JSONDecoder().decode(News.self, from: responseData)
                     completion(data)
                 } catch let error {
                     print("error: \(error)")
@@ -28,18 +28,18 @@ class Service {
         task.resume()
     }
     
-    func handleResponse(_ response: URLResponse?) {
+    private func handleResponse(_ response: URLResponse?) {
         print("response: \(String(describing: response))")
     }
     
-    func handleError(_ error: Error?) {
+    private func handleError(_ error: Error?) {
         print("error: \(String(describing: error))")
     }
     
 }
     
-    // MARK: - Welcome
-    struct Welcome: Codable {
+    // MARK: - News
+    struct News: Codable {
         let rss: RSS
     }
     

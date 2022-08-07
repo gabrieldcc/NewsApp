@@ -8,16 +8,31 @@
 import UIKit
 
 class NewsTableViewCell: UITableViewCell {
-
+    
+    
+    //MARK: IBOutlets
+    @IBOutlet weak private var newsImage: UIImageView!
+    @IBOutlet weak private var titleLabel: UILabel!
+    @IBOutlet weak private var descriptionLabel: UILabel!
+    @IBOutlet weak private var pubDateLabel: UILabel!
+    
+    //MARK: View Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        //MARK: Funcs
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func setupCell(image: String, title: String, description: String, pubDate: String) {
+        newsImage.loadFrom(URLAddress: image)
+        titleLabel.text = title
+        descriptionLabel.text = description
+        pubDateLabel.text = pubDate
     }
-    
 }
+
+
+
+
+
+
+

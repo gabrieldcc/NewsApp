@@ -12,12 +12,12 @@ final class ViewController: UIViewController {
     //MARK: - Vars
     private let service = Service()
     private var selectedItem: Item?
-    var welcomeData: Welcome?
+    var newsData: News?
     
-
+    
     
     //MARK: - IBOutlets
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak private var tableView: UITableView!
     
     //MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
     private func apiRequest() {
         service.makeRequest { [weak self] data in
             if let self = self {
-                self.welcomeData = data
+                self.newsData = data
                 self.tableView.reloadData()
             }
         }
@@ -50,13 +50,13 @@ final class ViewController: UIViewController {
         }
         webViewController.stringURL = self.selectedItem?.link
     }
-
+    
 }
 
 //MARK: - Tableview
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfRows = welcomeData?.rss.channel.item.count ?? 0
+        let numberOfRows = newsData?.rss.channel.item.count ?? 0
         
         return numberOfRows
     }
@@ -66,7 +66,7 @@ extension ViewController: UITableViewDataSource {
             fatalError("error to create cell")
         }
         
-        let item = self.welcomeData?.rss.channel.item[indexPath.row]
+        let item = self.newsData?.rss.channel.item[indexPath.row]
         let newsTitle = item?.title ?? String()
         let newsImage = item?.mediaContent?.empty.url ?? String()
         let newsDescription = item?.itemDescription.stripOutHtml() ?? String()
@@ -79,29 +79,29 @@ extension ViewController: UITableViewDataSource {
         return cell
     }
     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedItem = welcomeData?.rss.channel.item[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedItem = newsData?.rss.channel.item[indexPath.row]
         performSegue(withIdentifier: "showWebView", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         430
     }
-    
+
 }
 
 extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-         let headerView = Bundle.main.loadNibNamed("HomeHeader", owner: self, options: nil)?.first as? HomeHeader
+        let headerView = Bundle.main.loadNibNamed("HomeHeader", owner: self, options: nil)?.first as? HomeHeader
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 80
     }
-    
+
 }
 
 

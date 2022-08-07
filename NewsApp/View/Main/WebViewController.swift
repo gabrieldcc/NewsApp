@@ -14,8 +14,8 @@ final class WebViewController: UIViewController, WKNavigationDelegate {
     var stringURL: String?
         
     //MARK: - IBOutlets
-    @IBOutlet weak var wkWebView: WKWebView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
+    @IBOutlet weak private var wkWebView: WKWebView!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView?
     
     //MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -24,8 +24,8 @@ final class WebViewController: UIViewController, WKNavigationDelegate {
     }
         
     //MARK: - Funcs
-    func loadWebView() {
-        guard let url = URL(string: self.stringURL ?? "" ) else { return }
+    private func loadWebView() {
+        guard let url = URL(string: self.stringURL ?? String() ) else { return }
         wkWebView?.load(URLRequest(url: url))
     }
     
